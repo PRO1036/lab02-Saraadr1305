@@ -160,15 +160,6 @@ Réponse à la question…
 
 Recréez la visualisation:
 
-Réponse à la question…  
-La visualisation finale montre que la quantité de déchets plastiques par
-habitant augmente de façon quasi linéaire avec la proportion de
-population côtière.
-
-## Conclusion
-
-Recréez la visualisation:
-
 ``` r
 ggplot(data = plastic_waste,
        mapping = aes(x = coastal_pop,
