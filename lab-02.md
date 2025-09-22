@@ -29,13 +29,11 @@ plastic_waste <- plastic_waste %>%
 ggplot(data = plastic_waste,
        mapping = aes(x = continent,
                      y = plastic_waste_per_cap)) +
-  geom_boxplot(fill = "lightblue") +
+  stat_summary(fun = "mean", geom = "col", fill = "steelblue") +
   labs(
-    title = "Déchets plastiques par habitant",
-    subtitle = "Comparaison par continent",
+    title = "Moyenne des déchets plastiques par habitant",
     x = "Continent",
-    y = "kg par habitant",
-    caption = "Source : Plastic Waste dataset"
+    y = "kg par habitant"
   )
 ```
 
@@ -64,34 +62,97 @@ Réponse à la question…
 Boxplot:
 
 ``` r
-# insert code here
+ggplot(data = plastic_waste,
+       mapping = aes(x = continent,
+                     y = plastic_waste_per_cap)) +
+  geom_boxplot(fill = "lightblue") +
+  labs(
+    title = "Déchets plastiques par habitant",
+    subtitle = "Comparaison par continent",
+    x = "Continent",
+    y = "kg par habitant",
+  )
 ```
 
-Violin plot:
+![](lab-02_files/figure-gfm/plastic-waste-boxplot-1.png)<!-- -->
 
-``` r
-# insert code here
-```
+
+    Violin plot:
+
+
+    ``` r
+    ggplot(data = plastic_waste,
+           mapping = aes(x = continent,
+                         y = plastic_waste_per_cap)) +
+      geom_violin(fill = "lightgreen", alpha = 0.7) +
+      labs(
+        title = "Déchets plastiques par habitant",
+        subtitle = "Distribution par continent",
+        x = "Continent",
+        y = "kg par habitant"
+      )
+
+![](lab-02_files/figure-gfm/plastic-waste-violin-1.png)<!-- -->
 
 Réponse à la question…
 
 ### Exercise 4
 
 ``` r
-# insert code here
+ggplot(data = plastic_waste,
+       mapping = aes(x = plastic_waste_per_cap,
+                     y = mismanaged_plastic_waste_per_cap,
+                     colour = continent)) +
+  geom_point(alpha = 0.7, size = 2) +
+  labs(
+    title = "Déchets plastiques générés vs mal gérés",
+    subtitle = "Par pays",
+    x = "Déchets plastiques par habitant (kg)",
+    y = "Déchets plastiques mal gérés par habitant (kg)",
+    colour = "Continent"
+  )
 ```
+
+![](lab-02_files/figure-gfm/plastic-waste-mismanaged-1.png)<!-- -->
 
 Réponse à la question…
 
 ### Exercise 5
 
 ``` r
-# insert code here
+ggplot(data = plastic_waste,
+       mapping = aes(x = total_pop,
+                     y = plastic_waste_per_cap,
+                     colour = continent)) +
+  geom_point(alpha = 0.7, size = 2) +
+  labs(
+    title = "Population totale et déchets plastiques par habitant",
+    x = "Population totale",
+    y = "Déchets plastiques par habitant (kg)",
+    colour = "Continent"
+  )
 ```
 
+    ## Warning: Removed 10 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](lab-02_files/figure-gfm/plastic-waste-population-total-1.png)<!-- -->
+
 ``` r
-# insert code here
+ggplot(data = plastic_waste,
+       mapping = aes(x = coastal_pop,
+                     y = plastic_waste_per_cap,
+                     colour = continent)) +
+  geom_point(alpha = 0.7, size = 2) +
+  labs(
+    title = "Population côtière et déchets plastiques par habitant",
+    x = "Population côtière",
+    y = "Déchets plastiques par habitant (kg)",
+    colour = "Continent"
+  )
 ```
+
+![](lab-02_files/figure-gfm/plastic-waste-population-coastal-1.png)<!-- -->
 
 Réponse à la question…
 
@@ -99,6 +160,33 @@ Réponse à la question…
 
 Recréez la visualisation:
 
+Réponse à la question…  
+La visualisation finale montre que la quantité de déchets plastiques par
+habitant augmente de façon quasi linéaire avec la proportion de
+population côtière.
+
+## Conclusion
+
+Recréez la visualisation:
+
 ``` r
-# insert code here
+ggplot(data = plastic_waste,
+       mapping = aes(x = coastal_pop,
+                     y = plastic_waste_per_cap,
+                     colour = continent,
+                     size = total_pop)) +
+  geom_point(alpha = 0.7) +
+  labs(
+    title = "Population côtière et déchets plastiques par habitant",
+    subtitle = "Chaque point représente un pays",
+    x = "Population côtière",
+    y = "Déchets plastiques par habitant (kg)",
+    colour = "Continent",
+    size = "Population totale"
+  )
 ```
+
+    ## Warning: Removed 10 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](lab-02_files/figure-gfm/recreate-viz-1.png)<!-- -->
