@@ -49,7 +49,6 @@ ggplot(data = plastic_waste,
       geom_density(fill = "lightblue", alpha = 0.7) +
       labs(
         title = "Distribution des déchets plastiques par habitant",
-        subtitle = "Tous les pays (année disponible)",
         x = "Déchets plastiques par habitant (kg)",
         y = "Densité")
 
