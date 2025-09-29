@@ -27,82 +27,85 @@ plastic_waste <- plastic_waste %>%
 
 ### Exercise 1
 
-
+```{r}
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap)) +
+  geom_histogram() +
+  facet_wrap(~ continent)
 
 ```
-
 
 ### Exercise 2
-```{r plastic-waste-density}
-ggplot(data = plastic_waste,
-       mapping = aes(x = plastic_waste_per_cap)) +
-  geom_density(fill = "lightblue", alpha = 0.7) +
-  labs(
-    title = "Distribution des déchets plastiques par habitant",
-    x = "Déchets plastiques par habitant (kg)",
-    y = "Densité")
+
+
+```{r}
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap)) +
+  geom_density()
 ```
+```{r}
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap, colour = continent)) +
+  geom_density() +
+  labs(
+    title = "Courbes de densité des déchets plastiques par habitant",
+    x = "Déchets plastiques par habitant (kg/hab/an)",
+    y = "Densité",
+    colour = "Continent"
+  ) 
+```
+```{r}
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap, fill = continent)) +
+  geom_density(colour = NA) +
+  labs(
+    x = "plastic_waste_per_cap",
+    y = "density",
+    fill = "continent",
+    title = NULL
+  ) 
+```
+```{r}
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap, fill = continent, colour = continent)) +
+  geom_density(alpha = 0.4) +
+  labs(
+    x = "plastic_waste_per_cap",
+    y = "density",
+    fill = "continent",
+    colour = "continent"
+  )
+```
+Décrivez pourquoi le reglage de la couleur (color et fill) et le réglage de la transparence (alpha) ne se trouvent pas au même endroit ? L’un étant réglé dans aes et l’autre dans geom_density():
 
+Car dans aes(), on met ce qui dépend des données comme par exemple la couleur qui change selon le continent. Toutefois, alpha est pareil pour tout le graphe donc on doit le mettre dans geom_density().
 
-
-
-
-Réponse à la question...
 
 ### Exercise 3
 
 Boxplot:
 
-
-```{r plastic-waste-boxplot}
-ggplot(data = plastic_waste,
-       mapping = aes(x = continent,
-                     y = plastic_waste_per_cap)) +
-  geom_boxplot(fill = "lightblue") +
+```{r}
+ggplot(plastic_waste, aes(x = continent, y = plastic_waste_per_cap)) +
+  geom_boxplot(size = 0.5, outlier.size = 1) +
   labs(
-    title = "Déchets plastiques par habitant",
-    subtitle = "Comparaison par continent",
-    x = "Continent",
-    y = "kg par habitant",
-  )
+    x = "continent",
+    y = "plastic_waste_per_cap")
 ```
 
-```
-
-Violin plot:
-
-```{r plastic-waste-violin}
-ggplot(data = plastic_waste,
-       mapping = aes(x = continent,
-                     y = plastic_waste_per_cap)) +
-  geom_violin(fill = "lightgreen", alpha = 0.7) +
+Violinplot:
+```{r}
+ggplot(plastic_waste, aes(x = continent, y = plastic_waste_per_cap)) +
+  geom_violin() +
   labs(
-    title = "Déchets plastiques par habitant",
-    subtitle = "Distribution par continent",
-    x = "Continent",
-    y = "kg par habitant"
-  )
+    x = "continent",
+    y = "plastic_waste_per_cap")
 ```
+Qu’est ce que les violin plots permettent de voir sur les données que les boxplot ne permettent pas ?
 
-Réponse à la question...
+Le boxplot fournit une représentation qui indique la médiane, la dispersion via les quartiles, ainsi que les valeurs atypiques.Le violin plot, lui, illustre la distribution des données grâce à une estimation de densité. Il rend visible la structure de la répartition, ce que le boxplot ne montre pas.
 
 ### Exercise 4
 
 
-```{r plastic-waste-mismanaged}
-ggplot(data = plastic_waste,
-       mapping = aes(x = plastic_waste_per_cap,
-                     y = mismanaged_plastic_waste_per_cap,
-                     colour = continent)) +
-  geom_point(alpha = 0.7, size = 2) +
-  labs(
-    title = "Déchets plastiques générés vs mal gérés",
-    subtitle = "Par pays",
-    x = "Déchets plastiques par habitant (kg)",
-    y = "Déchets plastiques mal gérés par habitant (kg)",
-    colour = "Continent"
-  )
-```
+
+
+
 
 
 Réponse à la question...
@@ -110,34 +113,7 @@ Réponse à la question...
 ### Exercise 5
 
 
-```{r plastic-waste-population-total}
-ggplot(data = plastic_waste,
-       mapping = aes(x = total_pop,
-                     y = plastic_waste_per_cap,
-                     colour = continent)) +
-  geom_point(alpha = 0.7, size = 2) +
-  labs(
-    title = "Population totale et déchets plastiques par habitant",
-    x = "Population totale",
-    y = "Déchets plastiques par habitant (kg)",
-    colour = "Continent"
-  )
-```
 
-
-```{r plastic-waste-population-coastal}
-ggplot(data = plastic_waste,
-       mapping = aes(x = coastal_pop,
-                     y = plastic_waste_per_cap,
-                     colour = continent)) +
-  geom_point(alpha = 0.7, size = 2) +
-  labs(
-    title = "Population côtière et déchets plastiques par habitant",
-    x = "Population côtière",
-    y = "Déchets plastiques par habitant (kg)",
-    colour = "Continent"
-  )
-```
 
 
 Réponse à la question...
@@ -147,21 +123,6 @@ Réponse à la question...
 
 Recréez la visualisation:
 
-```{r recreate-viz}
-ggplot(data = plastic_waste,
-       mapping = aes(x = coastal_pop,
-                     y = plastic_waste_per_cap,
-                     colour = continent,
-                     size = total_pop)) +
-  geom_point(alpha = 0.7) +
-  labs(
-    title = "Population côtière et déchets plastiques par habitant",
-    subtitle = "Chaque point représente un pays",
-    x = "Population côtière",
-    y = "Déchets plastiques par habitant (kg)",
-    colour = "Continent",
-    size = "Population totale"
-  )
-```
+
 
 

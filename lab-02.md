@@ -25,144 +25,113 @@ plastic_waste <- plastic_waste %>%
 
 ### Exercise 1
 
+``` r
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap)) +
+  geom_histogram() +
+  facet_wrap(~ continent)
+```
 
+    ## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
 
-    ### Exercise 2
+![](lab-02_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
-    ``` r
-    ggplot(data = plastic_waste,
-           mapping = aes(x = plastic_waste_per_cap)) +
-      geom_density(fill = "lightblue", alpha = 0.7) +
-      labs(
-        title = "Distribution des déchets plastiques par habitant",
-        x = "Déchets plastiques par habitant (kg)",
-        y = "Densité")
+### Exercise 2
 
-![](lab-02_files/figure-gfm/plastic-waste-density-1.png)<!-- -->
+``` r
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap)) +
+  geom_density()
+```
 
-Réponse à la question…
+![](lab-02_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+``` r
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap, colour = continent)) +
+  geom_density() +
+  labs(
+    title = "Courbes de densité des déchets plastiques par habitant",
+    x = "Déchets plastiques par habitant (kg/hab/an)",
+    y = "Densité",
+    colour = "Continent"
+  ) 
+```
+
+![](lab-02_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap, fill = continent)) +
+  geom_density(colour = NA) +
+  labs(
+    x = "plastic_waste_per_cap",
+    y = "density",
+    fill = "continent",
+    title = NULL
+  ) 
+```
+
+![](lab-02_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+``` r
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap, fill = continent, colour = continent)) +
+  geom_density(alpha = 0.4) +
+  labs(
+    x = "plastic_waste_per_cap",
+    y = "density",
+    fill = "continent",
+    colour = "continent"
+  )
+```
+
+![](lab-02_files/figure-gfm/unnamed-chunk-5-1.png)<!-- --> Décrivez
+pourquoi le reglage de la couleur (color et fill) et le réglage de la
+transparence (alpha) ne se trouvent pas au même endroit ? L’un étant
+réglé dans aes et l’autre dans geom_density():
+
+Car dans aes(), on met ce qui dépend des données comme par exemple la
+couleur qui change selon le continent. Toutefois, alpha est pareil pour
+tout le graphe donc on doit le mettre dans geom_density().
 
 ### Exercise 3
 
 Boxplot:
 
 ``` r
-ggplot(data = plastic_waste,
-       mapping = aes(x = continent,
-                     y = plastic_waste_per_cap)) +
-  geom_boxplot(fill = "lightblue") +
+ggplot(plastic_waste, aes(x = continent, y = plastic_waste_per_cap)) +
+  geom_boxplot(size = 0.5, outlier.size = 1) +
   labs(
-    title = "Déchets plastiques par habitant",
-    subtitle = "Comparaison par continent",
-    x = "Continent",
-    y = "kg par habitant",
-  )
+    x = "continent",
+    y = "plastic_waste_per_cap")
 ```
 
-![](lab-02_files/figure-gfm/plastic-waste-boxplot-1.png)<!-- -->
+![](lab-02_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
-
-    Violin plot:
-
-
-    ``` r
-    ggplot(data = plastic_waste,
-           mapping = aes(x = continent,
-                         y = plastic_waste_per_cap)) +
-      geom_violin(fill = "lightgreen", alpha = 0.7) +
-      labs(
-        title = "Déchets plastiques par habitant",
-        subtitle = "Distribution par continent",
-        x = "Continent",
-        y = "kg par habitant"
-      )
-
-![](lab-02_files/figure-gfm/plastic-waste-violin-1.png)<!-- -->
-
-Réponse à la question…
-
-### Exercise 4
+Violinplot:
 
 ``` r
-ggplot(data = plastic_waste,
-       mapping = aes(x = plastic_waste_per_cap,
-                     y = mismanaged_plastic_waste_per_cap,
-                     colour = continent)) +
-  geom_point(alpha = 0.7, size = 2) +
+ggplot(plastic_waste, aes(x = continent, y = plastic_waste_per_cap)) +
+  geom_violin() +
   labs(
-    title = "Déchets plastiques générés vs mal gérés",
-    subtitle = "Par pays",
-    x = "Déchets plastiques par habitant (kg)",
-    y = "Déchets plastiques mal gérés par habitant (kg)",
-    colour = "Continent"
-  )
+    x = "continent",
+    y = "plastic_waste_per_cap")
 ```
 
-![](lab-02_files/figure-gfm/plastic-waste-mismanaged-1.png)<!-- -->
+![](lab-02_files/figure-gfm/unnamed-chunk-7-1.png)<!-- --> Qu’est ce que
+les violin plots permettent de voir sur les données que les boxplot ne
+permettent pas ?
+
+Le boxplot fournit une représentation qui indique la médiane, la
+dispersion via les quartiles, ainsi que les valeurs atypiques.Le violin
+plot, lui, illustre la distribution des données grâce à une estimation
+de densité. Il rend visible la structure de la répartition, ce que le
+boxplot ne montre pas.
+
+### Exercise 4
 
 Réponse à la question…
 
 ### Exercise 5
-
-``` r
-ggplot(data = plastic_waste,
-       mapping = aes(x = total_pop,
-                     y = plastic_waste_per_cap,
-                     colour = continent)) +
-  geom_point(alpha = 0.7, size = 2) +
-  labs(
-    title = "Population totale et déchets plastiques par habitant",
-    x = "Population totale",
-    y = "Déchets plastiques par habitant (kg)",
-    colour = "Continent"
-  )
-```
-
-    ## Warning: Removed 10 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
-![](lab-02_files/figure-gfm/plastic-waste-population-total-1.png)<!-- -->
-
-``` r
-ggplot(data = plastic_waste,
-       mapping = aes(x = coastal_pop,
-                     y = plastic_waste_per_cap,
-                     colour = continent)) +
-  geom_point(alpha = 0.7, size = 2) +
-  labs(
-    title = "Population côtière et déchets plastiques par habitant",
-    x = "Population côtière",
-    y = "Déchets plastiques par habitant (kg)",
-    colour = "Continent"
-  )
-```
-
-![](lab-02_files/figure-gfm/plastic-waste-population-coastal-1.png)<!-- -->
 
 Réponse à la question…
 
 ## Conclusion
 
 Recréez la visualisation:
-
-``` r
-ggplot(data = plastic_waste,
-       mapping = aes(x = coastal_pop,
-                     y = plastic_waste_per_cap,
-                     colour = continent,
-                     size = total_pop)) +
-  geom_point(alpha = 0.7) +
-  labs(
-    title = "Population côtière et déchets plastiques par habitant",
-    subtitle = "Chaque point représente un pays",
-    x = "Population côtière",
-    y = "Déchets plastiques par habitant (kg)",
-    colour = "Continent",
-    size = "Population totale"
-  )
-```
-
-    ## Warning: Removed 10 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
-![](lab-02_files/figure-gfm/recreate-viz-1.png)<!-- -->
