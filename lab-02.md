@@ -126,12 +126,95 @@ boxplot ne montre pas.
 
 ### Exercise 4
 
-Réponse à la question…
+``` r
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap,
+                          y = mismanaged_plastic_waste_per_cap,
+                          colour = continent)) +
+  geom_point() +
+  labs(
+    x = "Plastic waste per capita (kg/day)",
+    y = "Mismanaged plastic waste per capita (kg/day)",
+    colour = "Continent")
+```
+
+![](lab-02_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+Décrivez la relation.Voyez-vous une tendance ?
+
+Une relation positive est observée. Plus un pays produit de déchets
+plastiques par habitant, plus la quantité de déchets non gérés par
+habitant augmente aussi. Cependant, la tendance varie selon les
+continents. En effet, les pays riches produisent plus de déchets mais en
+gèrent mieux, alors que les autres pays les gèrent moins efficacement.
 
 ### Exercise 5
 
-Réponse à la question…
+``` r
+ggplot(plastic_waste, aes(x = total_pop, y = plastic_waste_per_cap, colour = continent)) +
+  geom_point() +
+  labs(
+    x = "Total population",
+    y = "Plastic waste per capita (kg/day)",
+    colour = "Continent")
+```
+
+    ## Warning: Removed 10 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](lab-02_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+``` r
+ggplot(plastic_waste, aes(x = coastal_pop, y = plastic_waste_per_cap, colour = continent)) +
+  geom_point() +
+  labs(
+    x = "Coastal population",
+    y = "Plastic waste per capita (kg/day)",
+    colour = "Continent"
+  )
+```
+
+![](lab-02_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+Visualisez la relation entre la quantité de déchets plastiques par
+habitant et le nombre total d’habitants, et dans un second graphe, la
+relation entre la quantité de déchets plastiques et le nombre total
+d’habitants vivant près d’une côte. Est-ce qu’il semble y avoir une
+relation plus forte pour l’une des paires de variables ?
+
+Il n’y a pas de relation nette entre la population totale et la quantité
+de déchets plastiques par habitant : les pays très peuplés ne produisent
+pas forcément plus de déchets par personne. Toutefois, la relation est
+un peu plus visible avec la population côtière : les pays ayant une
+population côtière élevée tendent à produire davantage de déchets
+plastiques par habitant.Donc, la relation est plus forte avec la
+population côtière qu’avec la population totale.
 
 ## Conclusion
 
-Recréez la visualisation:
+``` r
+plastic_waste_coastal <- plastic_waste %>% 
+  mutate(coastal_pop_prop = coastal_pop / total_pop) %>%
+  filter(plastic_waste_per_cap < 3)
+```
+
+``` r
+ggplot(plastic_waste_coastal, aes(x = coastal_pop_prop, 
+                                  y = plastic_waste_per_cap, 
+                                  colour = continent)) +
+  geom_point() +
+  geom_smooth(method = "loess", colour = "black") +
+  labs(
+    x = "Proportion de la population côtière (Coastal / total population)",
+    y = "Nombre de déchets plastiques par habitant",
+    colour = "Continent")
+```
+
+    ## `geom_smooth()` using formula = 'y ~ x'
+
+    ## Warning: Removed 10 rows containing non-finite outside the scale range
+    ## (`stat_smooth()`).
+
+    ## Warning: Removed 10 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](lab-02_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
