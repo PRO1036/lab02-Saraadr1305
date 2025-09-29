@@ -25,20 +25,6 @@ plastic_waste <- plastic_waste %>%
 
 ### Exercise 1
 
-``` r
-ggplot(data = plastic_waste,
-       mapping = aes(x = continent,
-                     y = plastic_waste_per_cap)) +
-  stat_summary(fun = "mean", geom = "col", fill = "steelblue") +
-  labs(
-    title = "Moyenne des déchets plastiques par habitant",
-    x = "Continent",
-    y = "kg par habitant"
-  )
-```
-
-![](lab-02_files/figure-gfm/plastic-waste-continent-1.png)<!-- -->
-
 
 
     ### Exercise 2
